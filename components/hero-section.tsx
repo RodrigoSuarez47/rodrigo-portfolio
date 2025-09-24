@@ -80,22 +80,22 @@ export function HeroSection() {
             <div className="flex gap-2">
               <Button variant="outline" size="icon" asChild className="group">
                 <a href="https://github.com/rodrigoSuarez47" target="_blank" rel="noopener noreferrer">
-                  <Github className="h-4 w-4 transition-colors text-foreground group-hover:text-primary dark:text-white dark:group-hover:text-primary" />
+                  <Github className="h-4 w-4 transition-colors text-foreground dark:text-white dark:group-hover:text-primary text-black group-hover:text-white" />
                 </a>
               </Button>
               <Button variant="outline" size="icon" asChild className="group">
                 <a href="https://www.linkedin.com/in/rodrigogabrielsuarez/" target="_blank" rel="noopener noreferrer">
-                  <Linkedin className="h-4 w-4 transition-colors text-foreground group-hover:text-primary dark:text-white dark:group-hover:text-primary" />
+                  <Linkedin className="h-4 w-4 transition-colors text-foreground dark:text-white dark:group-hover:text-primary text-black group-hover:text-white" />
                 </a>
               </Button>
               <Button variant="outline" size="icon" asChild className="group">
                 <a href="mailto:rodrisua1@hotmail.com">
-                  <Mail className="h-4 w-4 transition-colors text-foreground group-hover:text-primary dark:text-white dark:group-hover:text-primary" />
+                  <Mail className="h-4 w-4 transition-colors text-foreground dark:text-white dark:group-hover:text-primary text-black group-hover:text-white" />
                 </a>
               </Button>
               <Button variant="outline" size="icon" asChild className="group">
                 <a href="https://wa.me/59894974540" target="_blank" rel="noopener noreferrer">
-                  <FaWhatsapp className="h-4 w-4 transition-colors text-foreground group-hover:text-primary dark:text-white dark:group-hover:text-primary" />
+                  <FaWhatsapp className="h-4 w-4 transition-colors text-foreground dark:text-white dark:group-hover:text-primary text-black group-hover:text-white" />
                 </a>
               </Button>
             </div>

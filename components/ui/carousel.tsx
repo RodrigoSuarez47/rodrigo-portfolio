@@ -18,7 +18,7 @@ export const Carousel: React.FC<CarouselProps> = ({ images, className = "", allo
 
     return (
         <div className={`relative w-full ${className}`}>
-            <div className={`relative w-full h-full bg-muted rounded-lg overflow-hidden ${allowFullscreen ? 'cursor-zoom-in' : ''}`}>
+            <div className={`relative w-full h-full bg-transparent rounded-lg overflow-hidden ${allowFullscreen ? 'cursor-zoom-in' : ''}`}>
                 <Image
                     src={images[current].src}
                     alt={images[current].alt}

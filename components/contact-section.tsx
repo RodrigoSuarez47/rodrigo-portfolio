@@ -43,7 +43,7 @@ export function ContactSection() {
                     className="group w-full transition-all hover:bg-white hover:text-primary dark:hover:bg-primary dark:hover:text-white"
                   >
                     <a href="https://wa.me/59894974540" target="_blank" rel="noopener noreferrer">
-                      <FaWhatsapp className="mr-2 h-4 w-4 text-black group-hover:text-primary dark:group-hover:text-white transition-colors" />
+                      <FaWhatsapp className="mr-2 h-4 w-4 text-white group-hover:text-primary dark:text-black dark:group-hover:text-white transition-colors" />
                       Contactar por WhatsApp
                     </a>
                   </Button>
@@ -63,7 +63,7 @@ export function ContactSection() {
                     <Mail className="h-5 w-5 text-primary" />
                     <a
                       href="mailto:rodrisua1@hotmail.com"
-                      className="text-muted-foreground hover:text-foreground dark:hover:text-primary transition-colors"
+                      className="text-muted-foreground hover:text-foreground hover:text-primary transition-colors"
                     >
                       rodrisua1@hotmail.com
                     </a>
@@ -75,7 +75,7 @@ export function ContactSection() {
                       href="https://wa.me/59894974540"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-muted-foreground hover:text-foreground dark:hover:text-green-500 transition-colors"
+                      className="text-muted-foreground hover:text-foreground hover:text-green-500 transition-colors"
                     >
                       +598 94 974 540 (WhatsApp)
                     </a>

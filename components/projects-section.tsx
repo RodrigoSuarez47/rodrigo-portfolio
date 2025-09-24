@@ -5,10 +5,11 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog"
 import { Badge } from "@/components/ui/badge"
-import { Github, FolderOpen, ArrowBigRightDashIcon, ExternalLink } from "lucide-react"
+import { Github, FolderOpen, ArrowBigRightDashIcon, ExternalLink, EyeIcon, FileTextIcon, ListIcon, InfoIcon, ArrowRightCircleIcon, FileCodeIcon } from "lucide-react"
 import Image from "next/image"
 import { Carousel } from "@/components/ui/carousel"
 import Lightbox from "@/components/ui/lightbox"
+import { TbListDetails } from "react-icons/tb"
 
 const projects = [
   {
@@ -35,12 +36,12 @@ const projects = [
       {
         src: "/images/SistemaMayoristaJavier/MayoristaJavier-Suppliers.png",
         alt: "Proveedores",
-        description: "Administración de proveedores y compras.",
+        description: "Administración de proveedores.",
       },
       {
         src: "/images/SistemaMayoristaJavier/MayoristaJavier-Orders.png",
         alt: "Pedidos",
-        description: "Módulo de pedidos con generación automática de órdenes.",
+        description: "Módulo de pedidos con generación automática de archivos PDF.",
       },
       {
         src: "/images/SistemaMayoristaJavier/MayoristaJavier-Dashboard.png",
@@ -50,7 +51,7 @@ const projects = [
       {
         src: "/images/SistemaMayoristaJavier/MayoristaJavier-Users.png",
         alt: "Usuarios",
-        description: "Gestión de usuarios, roles y permisos.",
+        description: "Gestión de usuarios del sistema.",
       },
     ],
     technologies: [
@@ -194,12 +195,14 @@ export function ProjectsSection() {
                 </div>
                 <Button
                   variant="outline"
-                  className="w-full bg-transparent dark:hover:text-primary"
+                  className="group w-full transition-all dark:bg-primary dark:text-black dark:hover:bg-primary dark:hover:text-white 
+                  light:hover:text-black"
                   onClick={(e: MouseEvent<HTMLButtonElement>) => {
                     e.stopPropagation()
                     setSelectedProject(project)
                   }}
                 >
+                  <FileCodeIcon className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
                   Ver detalles
                 </Button>
               </CardContent>
@@ -257,7 +260,8 @@ export function ProjectsSection() {
                 {/* Botones de acción */}
                 <div className="flex flex-col sm:flex-row gap-3 mt-6">
                   {selectedProject.demoUrl && (
-                    <Button variant="outline" asChild className="flex-1 w-full sm:w-auto dark:hover:text-primary">
+                    <Button variant="outline" asChild className="flex-1 w-full sm:w-auto dark:bg-primary dark:text-black dark:hover:bg-primary dark:hover:text-white
+                    ">
                       <a href={selectedProject.demoUrl} target="_blank" rel="noopener noreferrer">
                         <ExternalLink className="mr-2 h-4 w-4" />
                         Navegar al proyecto
