@@ -1,11 +1,11 @@
 "use client"
 
-import { useState, MouseEvent } from "react"
+import { useState, MouseEvent, TouchEvent } from "react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog"
 import { Badge } from "@/components/ui/badge"
-import { ExternalLink, Github, FolderOpen } from "lucide-react"
+import { Github, FolderOpen, ArrowBigRightDashIcon, ExternalLink } from "lucide-react"
 import Image from "next/image"
 import { Carousel } from "@/components/ui/carousel"
 import Lightbox from "@/components/ui/lightbox"
@@ -122,13 +122,35 @@ export function ProjectsSection() {
   const [selectedProject, setSelectedProject] = useState<(typeof projects)[0] | null>(null)
   const [lightboxState, setLightboxState] = useState<{ projectIndex: number; current: number } | null>(null)
 
-  const openLightbox = (projectIndex: number, start = 0) => setLightboxState({ projectIndex, current: start })
+  // swipe states
+  const [touchStartX, setTouchStartX] = useState(0)
+
+  const openLightbox = (projectIndex: number, start = 0) =>
+    setLightboxState({ projectIndex, current: start })
   const closeLightbox = () => setLightboxState(null)
-  const prevLightbox = () => setLightboxState((s) => s ? { ...s, current: s.current === 0 ? projects[s.projectIndex].images.length - 1 : s.current - 1 } : s)
-  const nextLightbox = () => setLightboxState((s) => s ? { ...s, current: s.current === projects[s.projectIndex].images.length - 1 ? 0 : s.current + 1 } : s)
+  const prevLightbox = () =>
+    setLightboxState((s) =>
+      s ? { ...s, current: s.current === 0 ? projects[s.projectIndex].images.length - 1 : s.current - 1 } : s
+    )
+  const nextLightbox = () =>
+    setLightboxState((s) =>
+      s
+        ? { ...s, current: s.current === projects[s.projectIndex].images.length - 1 ? 0 : s.current + 1 }
+        : s
+    )
+
+  // Swipe detection
+  const handleTouchStart = (e: TouchEvent) => {
+    setTouchStartX(e.changedTouches[0].clientX)
+  }
+  const handleTouchEnd = (e: TouchEvent) => {
+    const deltaX = e.changedTouches[0].clientX - touchStartX
+    if (deltaX > 50) prevLightbox()
+    if (deltaX < -50) nextLightbox()
+  }
 
   return (
-    <section id="projects" className="py-20 px-6 lg:px-8 relative overflow-hidden">
+    <section id="projects" className="py-20 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
       <div className="max-w-6xl mx-auto relative z-10 space-y-12 text-center">
         <div className="space-y-4">
           <div className="flex items-center justify-center space-x-3 mb-4">
@@ -140,30 +162,43 @@ export function ProjectsSection() {
           </p>
         </div>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-2 gap-6">
+        <div className="grid md:grid-cols-2 gap-6">
           {projects.map((project, idx) => (
             <Card key={project.id} className="group hover:shadow-lg transition-all duration-300 hover:scale-105">
               <CardHeader className="p-0">
                 {project.images && project.images.length > 0 ? (
                   <Carousel
                     images={project.images}
-                    className="h-48"
+                    className="w-full h-48 sm:h-56 md:h-64 lg:h-72"
                     onImageClick={(index) => openLightbox(idx, index)}
                   />
                 ) : (
-                  <Image src={"/placeholder.svg"} alt={project.title} width={500} height={300} className="w-full h-48 object-cover" />
+                  <Image
+                    src={"/placeholder.svg"}
+                    alt={project.title}
+                    width={500}
+                    height={300}
+                    className="w-full h-48 object-cover"
+                  />
                 )}
               </CardHeader>
               <CardContent className="p-6">
                 <CardTitle className="text-xl mb-2">{project.title}</CardTitle>
                 <CardDescription className="mb-4 text-pretty">{project.description}</CardDescription>
                 <div className="flex flex-wrap gap-2 mb-4">
-                  {project.technologies.map((tech) => (<Badge key={tech} variant="secondary" className="text-xs">{tech}</Badge>))}
+                  {project.technologies.map((tech) => (
+                    <Badge key={tech} variant="secondary" className="text-xs">
+                      {tech}
+                    </Badge>
+                  ))}
                 </div>
                 <Button
                   variant="outline"
                   className="w-full bg-transparent dark:hover:text-primary"
-                  onClick={(e: MouseEvent<HTMLButtonElement>) => { e.stopPropagation(); setSelectedProject(project) }}
+                  onClick={(e: MouseEvent<HTMLButtonElement>) => {
+                    e.stopPropagation()
+                    setSelectedProject(project)
+                  }}
                 >
                   Ver detalles
                 </Button>
@@ -183,13 +218,16 @@ export function ProjectsSection() {
         </div>
       </div>
 
-      <Dialog open={!!selectedProject} onOpenChange={(open) => { if (!open) setSelectedProject(null) }}>
-        <DialogContent className="max-w-2xl max-h-[80vh] overflow-y-auto">
+      {/* Modal Detalles */}
+      <Dialog open={!!selectedProject} onOpenChange={(open) => !open && setSelectedProject(null)}>
+        <DialogContent className="max-w-2xl max-h-[85vh] overflow-y-auto">
           {selectedProject && (
             <>
               <DialogHeader>
                 <DialogTitle className="text-2xl mt-4">{selectedProject.title}</DialogTitle>
-                <DialogDescription className="text-base mt-4">{selectedProject.longDescription}</DialogDescription>
+                <DialogDescription className="text-base mt-4">
+                  {selectedProject.longDescription}
+                </DialogDescription>
               </DialogHeader>
 
               <div className="space-y-6">
@@ -208,8 +246,32 @@ export function ProjectsSection() {
                 <div>
                   <h4 className="font-semibold mb-3">Tecnologías utilizadas:</h4>
                   <div className="flex flex-wrap gap-2">
-                    {selectedProject.technologies.map((tech) => (<Badge key={tech} variant="secondary">{tech}</Badge>))}
+                    {selectedProject.technologies.map((tech) => (
+                      <Badge key={tech} variant="secondary">
+                        {tech}
+                      </Badge>
+                    ))}
                   </div>
+                </div>
+
+                {/* Botones de acción */}
+                <div className="flex flex-col sm:flex-row gap-3 mt-6">
+                  {selectedProject.demoUrl && (
+                    <Button variant="outline" asChild className="flex-1 w-full sm:w-auto dark:hover:text-primary">
+                      <a href={selectedProject.demoUrl} target="_blank" rel="noopener noreferrer">
+                        <ExternalLink className="mr-2 h-4 w-4" />
+                        Ver demo
+                      </a>
+                    </Button>
+                  )}
+                  {selectedProject.githubUrl && (
+                    <Button variant="outline" asChild className="flex-1 w-full sm:w-auto dark:hover:text-primary">
+                      <a href={selectedProject.githubUrl} target="_blank" rel="noopener noreferrer">
+                        <ArrowBigRightDashIcon className="mr-2 h-4 w-4" />
+                        Navegar al proyecto
+                      </a>
+                    </Button>
+                  )}
                 </div>
               </div>
             </>
@@ -217,15 +279,20 @@ export function ProjectsSection() {
         </DialogContent>
       </Dialog>
 
+      {/* Lightbox con soporte swipe */}
       {lightboxState && (
         <Lightbox open={true} onClose={closeLightbox} prev={prevLightbox} next={nextLightbox}>
-          <div className="relative w-[90vw] h-[80vh] max-w-[95vw] max-h-[85vh] flex items-center justify-center">
+          <div
+            className="relative w-[95vw] h-[80vh] max-w-[95vw] max-h-[85vh] flex items-center justify-center"
+            onTouchStart={handleTouchStart}
+            onTouchEnd={handleTouchEnd}
+          >
             <Image
               src={projects[lightboxState.projectIndex].images[lightboxState.current].src}
               alt={projects[lightboxState.projectIndex].images[lightboxState.current].alt}
               fill
               className="object-contain"
-              sizes="90vw"
+              sizes="95vw"
               priority
             />
           </div>
