@@ -260,14 +260,6 @@ export function ProjectsSection() {
                     <Button variant="outline" asChild className="flex-1 w-full sm:w-auto dark:hover:text-primary">
                       <a href={selectedProject.demoUrl} target="_blank" rel="noopener noreferrer">
                         <ExternalLink className="mr-2 h-4 w-4" />
-                        Ver demo
-                      </a>
-                    </Button>
-                  )}
-                  {selectedProject.githubUrl && (
-                    <Button variant="outline" asChild className="flex-1 w-full sm:w-auto dark:hover:text-primary">
-                      <a href={selectedProject.githubUrl} target="_blank" rel="noopener noreferrer">
-                        <ArrowBigRightDashIcon className="mr-2 h-4 w-4" />
                         Navegar al proyecto
                       </a>
                     </Button>
